@@ -20,7 +20,7 @@ pub fn parse_input() -> (Vec<usize>, Vec<[[usize; 5]; 5]>) {
     let mut row_num = 0;
 
     for line in lines {
-        if line == "" {
+        if line.is_empty() {
             boards.push(curr_board.clone());
             row_num = 0;
         } else {
@@ -28,19 +28,17 @@ pub fn parse_input() -> (Vec<usize>, Vec<[[usize; 5]; 5]>) {
                 .split(' ')
                 .collect::<Vec<&str>>()
                 .into_iter()
-                .filter(|string| *string != "")
+                .filter(|string| !string.is_empty())
                 .map(|str_num| str_num.parse().unwrap())
                 .collect();
 
-            for i in 0..5 {
-                curr_board[row_num][i] = row[i]
-            }
+            curr_board[row_num][..5].copy_from_slice(&row[..5]);
 
             row_num += 1;
         }
     }
 
-    boards.push(curr_board.clone());
+    boards.push(curr_board);
 
     (draws, boards)
 }
@@ -54,8 +52,8 @@ pub fn day4_part1_get_board(
 
     for number in draws {
         for (board_index, board) in boards.iter().enumerate() {
-            for (row_index, row) in board.into_iter().enumerate() {
-                if let Some(col) = row.into_iter().position(|board_num| *board_num == *number) {
+            for (row_index, row) in board.iter().enumerate() {
+                if let Some(col) = row.iter().position(|board_num| *board_num == *number) {
                     highlighted_indices[board_index].push((row_index, col));
                 }
             }

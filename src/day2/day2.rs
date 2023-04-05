@@ -41,7 +41,7 @@ pub fn day2_part2() {
     let mut directions = Vec::new();
 
     for line in file.lines() {
-        let split: Vec<&str> = line.split(" ").collect();
+        let split: Vec<&str> = line.split(' ').collect();
 
         directions.push(match split[0] {
             "forward" => Direction::Forward(split[1].parse().unwrap()),
